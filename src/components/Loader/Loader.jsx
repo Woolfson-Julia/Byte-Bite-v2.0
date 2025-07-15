@@ -9,12 +9,12 @@ export default function Loader() {
         justifyContent: "center",
         alignItems: "center",
         width: "100%",
-        flexDirection: "row", 
-        gap: 1, 
-        padding: 2, 
+        flexDirection: "row",
+        gap: 1,
+        padding: 2,
       }}
     >
-      <CircularProgress />
+      <CircularProgress sx={{ color: "#3d2218" }} />
     </Box>
   );
 }
