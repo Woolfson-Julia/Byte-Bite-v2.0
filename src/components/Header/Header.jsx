@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useMediaQuery } from "../../hooks/useMediaQuery.js";
 import Logo from "../Logo/Logo.jsx";
 import NavPanel from "../NavPanel/NavPanel.jsx";
@@ -12,6 +12,10 @@ export default function Header() {
 
   const openMobileMenu = () => setIsMobileMenuOpen(true);
   const closeMobileMenu = () => setIsMobileMenuOpen(false);
+
+  useEffect(() => {
+    document.body.style.overflow = isMobileMenuOpen ? "hidden" : "";
+  }, [isMobileMenuOpen]);
 
   return (
     <>

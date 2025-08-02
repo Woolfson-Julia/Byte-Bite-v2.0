@@ -18,25 +18,27 @@ export default function MobileMenu({ onClose }) {
   }, [onClose]);
 
   return (
-    <div className={css.wrapper}>
-      <div className="container">
-        <div className={css.topBar}>
-          <Logo />
-          <IconButton
-            onClick={onClose}
-            variantBtn="none"
-            variantSvg="none"
-            className={css.btnSvg}
-            type="button"
-            aria-label="Close mobile menu"
-          >
-            <svg className={css.icon} width="32" height="32">
-              <use href="/sprite.svg#icon-close" />
-            </svg>
-          </IconButton>
-        </div>
+    <div className={css.mobileMenuBackdrop}>
+      <div className={css.wrapper}>
+        <div className="container">
+          <div className={css.topBar}>
+            <Logo />
+            <IconButton
+              onClick={onClose}
+              variantBtn="none"
+              variantSvg="none"
+              className={css.btnSvg}
+              type="button"
+              aria-label="Close mobile menu"
+            >
+              <svg className={css.icon} width="32" height="32">
+                <use href="/sprite.svg#icon-close" />
+              </svg>
+            </IconButton>
+          </div>
 
-        <NavPanel onLinkClick={onClose} />
+          <NavPanel onLinkClick={onClose} />
+        </div>
       </div>
     </div>
   );
