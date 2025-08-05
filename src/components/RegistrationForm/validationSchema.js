@@ -8,8 +8,8 @@ export const validationSchema = Yup.object({
 
   email: Yup.string()
     .min(5, "Email must be at least 5 characters")
-    .email("Please enter a valid email")
     .max(128, "Email cannot be longer than 128 characters")
+    .matches(/^[^\s@]+@[^\s@]+\.[^\s@]+$/, "Please enter a valid email")
     .required("Email is required"),
 
   password: Yup.string()
