@@ -122,16 +122,21 @@
   font-weight: 600;
   font-size: 12px;
   border-radius: 8px;
-  width: 40px;
+  width: auto;
   height: 28px;
   padding: 2px 8px;
+}
 
+.svgCount {
+    width: 16px;
+    height: 16px;
 }
 @media screen and (min-width: 768px) {
   .recipe {
     width: 339px;
     height: 483px;
   }
+
 
 }
 
