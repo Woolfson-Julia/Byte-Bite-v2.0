@@ -2,16 +2,20 @@ import css from "./RecipeCard.module.css";
 import IconButton from "../IconButton/IconButton";
 import Button from "../Button/Button";
 import { useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector, useDispatch} from "react-redux";
+import { useEffect, useState } from "react";
 
 import {
   addRecipeToFav,
-  fetchFavorites,
   removeRecipeFromFav,
-  removeOwnRecipes
+  removeOwnRecipes,
+  fetchRecipes,
 } from "../../redux/recipes/operations";
 
-import { selectIsLoggedIn } from "../../redux/auth/selectors";
+import {
+  selectIsLoggedIn
+} from "../../redux/auth/selectors";
+import { selectFavoritesRoot } from "../../redux/recipes/selectors";
 import { openModal } from "../../redux/modal/slice";
 import toast from "react-hot-toast";
 import ToastInfo from "../ToastInfo/ToastInfo";
@@ -20,9 +24,25 @@ import ToastInfo from "../ToastInfo/ToastInfo";
 
 
 
-export default function RecipeCard({ recipe, isFavorite, showFavoriteButton = true, showRemoveButton=true}) {
+export default function RecipeCard({
+  recipe,
+  showFavoriteButton = true,
+  showRemoveButton = true,
+}) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+   const favoritesRoot = useSelector(selectFavoritesRoot); // это объект { recipes: [...] }
+
+   const favorites = favoritesRoot?.recipes || []; // безопасно получаем массив избранных
+
+   const isFavoriteGlobal = favorites.some((fav) => fav._id === recipe._id);
+
+   const [isFavorite, setIsFavorite] = useState(isFavoriteGlobal);
+
+  useEffect(() => {
+    setIsFavorite(isFavoriteGlobal);
+  }, [isFavoriteGlobal]);
 
   const isLoggedIn = useSelector(selectIsLoggedIn);
 
@@ -38,9 +58,12 @@ export default function RecipeCard({ recipe, isFavorite, showFavoriteButton = tr
       return;
     }
     try {
-      await dispatch(addRecipeToFav(id)).unwrap();    
+      await dispatch(addRecipeToFav(id)).unwrap();
       // dispatch(openModal({ modalType: "saved" }));
-      dispatch(fetchFavorites());
+      // dispatch(fetchFavorites());
+      // dispatch(fetchRecipes());
+        setIsFavorite(true);
+        dispatch(fetchRecipes());
       toast.success("Recipe added to favorites!");
     } catch (error) {
       console.error("Ошибка при добавлении в избранное", error);
@@ -52,7 +75,10 @@ export default function RecipeCard({ recipe, isFavorite, showFavoriteButton = tr
 
     try {
       await dispatch(removeRecipeFromFav(id)).unwrap();
-      dispatch(fetchFavorites());
+      // dispatch(fetchFavorites());
+      // dispatch(fetchRecipes());
+      setIsFavorite(false);
+     dispatch(fetchRecipes());
       toast.success("Recipe delete from favorites!");
     } catch (error) {
       console.error("Ошибка при удалении из избранного", error);
@@ -119,10 +145,10 @@ export default function RecipeCard({ recipe, isFavorite, showFavoriteButton = tr
               </IconButton>
             ))}
           <div className={css.favoritesCount}>
-            <svg width="24" height="24" stroke="currentColor">
+            <svg stroke="currentColor" className={css.svgCount}>
               <use href="/sprite.svg#icon-add-to-favorite-24px" />
             </svg>
-            <p className={css.f}>{recipe.favoritesCount || 0}</p>
+            <p className={css.f}>{recipe.favoritesCount}</p>
           </div>
         </div>
         {showRemoveButton && (

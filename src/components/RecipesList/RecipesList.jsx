@@ -6,7 +6,6 @@ import {
   selectRecipesError,
   selectRecipes,
   selectRecipesLoading,
-  selectFavorites,
   selectRecipesCount,
 } from "../../redux/recipes/selectors";
 import { genericErrorMessage } from "../../redux/recipes/operations";
@@ -34,7 +33,6 @@ function RecipesList() {
   const categoryValue = useSelector(selectCategory);
   const ingredientValue = useSelector(selectIngredient);
   const recipes = useSelector(selectRecipes);
-  const favorites = useSelector(selectFavorites);
   const isLoading = useSelector(selectRecipesLoading);
   const error = useSelector(selectRecipesError);
   const isLoggedIn = useSelector(selectIsLoggedIn);
@@ -115,7 +113,6 @@ function RecipesList() {
                 <li key={recipe._id} ref={isFirstNew ? newItemRef : null}>
                   <RecipeCard
                     recipe={recipe}
-                    isFavorite={favorites.some((fav) => fav._id === recipe._id)}
                     showRemoveButton={false}
                   />
                 </li>

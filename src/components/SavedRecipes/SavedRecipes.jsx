@@ -43,21 +43,6 @@ export default function SavedRecipes() {
     );
   }, [dispatch, categoryValue, ingredientValue, page]);
 
-  // useEffect(() => {
-  //   if (
-  //     page > 1 &&
-  //     favorites.length > prevLengthRef.current &&
-  //     cardRef.current
-  //   ) {
-  //     const cardHeight = cardRef.current.getBoundingClientRect().height;
-  //     window.scrollBy({
-  //       top: cardHeight,
-  //       behavior: "smooth",
-  //     });
-  //   }
-
-  //   prevLengthRef.current = favorites.length;
-  // }, [favorites, page]);
 
   const newItemRef = useRef(null);
 
